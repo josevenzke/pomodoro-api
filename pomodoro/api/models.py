@@ -1,16 +1,18 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.deletion import CASCADE
+import datetime
 
 # Create your models here.
 class PomodoroTree(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    current_pomodors = models.IntegerField()
-    time_for_next_pomodoro = models.TimeField() 
+    all_time_pomodoros = models.IntegerField(default=0)
+    current_pomodoros = models.IntegerField(default=0)
+    time_for_next_pomodoro = models.IntegerField(default=0) 
 
 class Pomodoro(models.Model):
     pomodotree = models.ForeignKey(PomodoroTree,on_delete=models.CASCADE)
-    create_ad = models.DateField(auto_now_add=True)
+    created_at = models.DateField(auto_now_add=True)
 
 class TimeSpent(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
