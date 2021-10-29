@@ -9,6 +9,7 @@ from django.contrib.auth.models import User
 
 import datetime
 from datetime import timedelta
+from .functions import *
 
 # Create your views here.
 @api_view(['POST'])
@@ -64,14 +65,15 @@ def get_pomodoros(request):
     if time_period == 'week':
         date_end = datetime.date.today()
         date_start = date_end - timedelta(days=7)
-        pomodoros = Pomodoro.objects.filter(created_at__range=(date_start,date_end)).values()
+        pomodoros = get_pomodoros_specific_period(date_start,date_end)
+        #helper
 
     elif time_period == 'month':
         date_end = datetime.date.today()
         date_start = date_end - timedelta(days=30)
-        pomodoros = Pomodoro.objects.filter(created_at__range=(date_start,date_end)).values()
+        pomodoros = get_pomodoros_specific_period(date_start,date_end)
 
-    return Response({'pomodoros_last_week':pomodoros})
+    return Response({'pomodoros':pomodoros})
 
 
 
