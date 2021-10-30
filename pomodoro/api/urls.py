@@ -13,5 +13,7 @@ urlpatterns = [
     path('add-user/',views.add_user),
     path('add-time/', views.add_time),
     path('get-pomodoros/', views.get_pomodoros),
-    path('get-timespent/', views.get_time_spent)
+    path('get-timespent/', views.get_time_spent),
+    path('add-reward/', views.add_reward),
+    path('get-rewards/', views.get_rewards)
 ]

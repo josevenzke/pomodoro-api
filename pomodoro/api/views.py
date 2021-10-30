@@ -1,5 +1,5 @@
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated,IsAdminUser
 from rest_framework.response import Response
 from django.contrib.auth.hashers import make_password
 
@@ -96,4 +96,23 @@ def get_time_spent(request):
     return Response({'time_spent':time_spent})
 
 
+@api_view(['POST'])
+@permission_classes([IsAuthenticated,IsAdminUser])
+def add_reward(request):
+    name = request.POST.get('name')
+    description = request.POST.get('description')
+    cost = request.POST.get('cost')
 
+    reward = Reward.objects.create(name=name,description=description,cost=cost)
+
+    serialized_reward = RewardSerializer(reward).data
+
+    return Response({'reward':serialized_reward})
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_rewards(request):
+    rewards = Reward.objects.all()
+
+    serialized_rewards = RewardSerializer(rewards,many=True).data
+    return Response({'rewards':serialized_rewards})
