@@ -34,7 +34,14 @@ def add_user(request):
 @permission_classes([IsAuthenticated])
 def get_user(request):
     user = request.user
+    pomotree = PomodoroTree.objects.get(user=user)
     serialized_user = UserSerializer(user).data
+    serialized_pomotree = PomodoroTreeSerializer(pomotree).data
+    serialized_user.update(serialized_pomotree)
+
+    day_streak = {'day_streak':get_day_streak(pomotree)}
+    serialized_user.update(day_streak)
+    
 
     return Response({'user':serialized_user})
 
@@ -102,8 +109,10 @@ def add_reward(request):
     name = request.POST.get('name')
     description = request.POST.get('description')
     cost = request.POST.get('cost')
+    content = request.POST.get('content')
 
     reward = Reward.objects.create(name=name,description=description,cost=cost)
+    reward_contente = SecretReward.objects.create(reward=reward,content=content)
 
     serialized_reward = RewardSerializer(reward).data
 
@@ -116,3 +125,21 @@ def get_rewards(request):
 
     serialized_rewards = RewardSerializer(rewards,many=True).data
     return Response({'rewards':serialized_rewards})
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def buy_reward(request,id_):
+    reward = Reward.objects.get(pk=id_)
+    pomotree = PomodoroTree.objects.get(user=request.user)
+    current_amount = pomotree.current_pomodoros
+    cost = reward.cost
+
+    reward_content = SecretReward.objects.get(reward_id=reward.id)
+
+    if current_amount >= cost:
+        pomotree.current_pomodoros -= cost
+        pomotree.save()
+        reward_content = SecretReward.objects.get(reward_id=reward.id)
+        return Response({'Success':True,'reward_content':reward_content.content,'current_pomodors':pomotree.current_pomodoros})
+    else:
+        return Response({'Success':False})

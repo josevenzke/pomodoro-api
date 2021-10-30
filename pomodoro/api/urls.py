@@ -15,5 +15,6 @@ urlpatterns = [
     path('get-pomodoros/', views.get_pomodoros),
     path('get-timespent/', views.get_time_spent),
     path('add-reward/', views.add_reward),
-    path('get-rewards/', views.get_rewards)
+    path('get-rewards/', views.get_rewards),
+    path('buy-reward/<int:id_>/', views.buy_reward)
 ]
