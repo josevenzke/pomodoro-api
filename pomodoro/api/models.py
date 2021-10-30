@@ -7,7 +7,7 @@ class PomodoroTree(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     all_time_pomodoros = models.IntegerField(default=0)
     current_pomodoros = models.IntegerField(default=0)
-    time_for_next_pomodoro = models.IntegerField(default=0) 
+    next_pomodoro = models.IntegerField(default=0) 
 
 class Pomodoro(models.Model):
     pomodorotree = models.ForeignKey(PomodoroTree,on_delete=models.CASCADE)

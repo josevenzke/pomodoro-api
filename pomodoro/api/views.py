@@ -51,13 +51,13 @@ def add_time(request):
     time = request.POST.get('time')
 
     pomotree = PomodoroTree.objects.get(user=request.user)
-    pomotree.time_for_next_pomodoro += int(time)
+    pomotree.next_pomodoro += int(time)
 
-    if pomotree.time_for_next_pomodoro >= 90:
+    if pomotree.next_pomodoro >= 90:
         Pomodoro.objects.create(pomodorotree=pomotree)
         pomotree.current_pomodoros += 1
         pomotree.all_time_pomodoros +=1
-        pomotree.time_for_next_pomodoro -= 90
+        pomotree.next_pomodoro -= 90
     
     pomotree.save()
 

@@ -11,7 +11,7 @@ class UserSerializer(serializers.ModelSerializer):
 class PomodoroTreeSerializer(serializers.ModelSerializer):
     class Meta:
         model = PomodoroTree
-        fields = ['id','user','all_time_pomodoros','current_pomodoros','time_for_next_pomodoro']
+        fields = ['id','user','all_time_pomodoros','current_pomodoros','next_pomodoro']
 
 class RewardSerializer(serializers.ModelSerializer):
     class Meta:
