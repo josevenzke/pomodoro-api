@@ -11,13 +11,13 @@ class PomodoroTree(models.Model):
     time_for_next_pomodoro = models.IntegerField(default=0) 
 
 class Pomodoro(models.Model):
-    pomodotree = models.ForeignKey(PomodoroTree,on_delete=models.CASCADE)
+    pomodorotree = models.ForeignKey(PomodoroTree,on_delete=models.CASCADE)
     created_at = models.DateField(auto_now_add=True)
 
 class TimeSpent(models.Model):
-    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    pomodorotree = models.ForeignKey(PomodoroTree,on_delete=models.CASCADE)
     date = models.DateField(auto_now_add=True)
-    time_spent = models.TimeField()
+    time_spent = models.IntegerField()
 
 class Reward(models.Model):
     name = models.CharField(max_length=255)
