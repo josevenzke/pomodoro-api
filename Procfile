@@ -1,2 +1,1 @@
-web: gunicorn pomodoro.wsgi
-release: python pomodoro/manage.py migrate --noinput
+web: gunicorn pomodoro/pomodoro.wsgi
