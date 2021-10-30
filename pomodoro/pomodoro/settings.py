@@ -82,7 +82,7 @@ WSGI_APPLICATION = 'pomodoro.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': config("DATABASE_URL"),
-
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
