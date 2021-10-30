@@ -6,14 +6,14 @@ from django.contrib.auth.models import User
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['username','email','date_joined']
+        fields = ['id','username','email','date_joined']
 
 class PomodoroTreeSerializer(serializers.ModelSerializer):
     class Meta:
         model = PomodoroTree
-        fields = ['user','all_time_pomodoros','current_pomodoros','time_for_next_pomodoro']
+        fields = ['id','user','all_time_pomodoros','current_pomodoros','time_for_next_pomodoro']
 
 class RewardSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reward
-        fields = ['name','description','cost']
+        fields = ['id','name','description','cost']
