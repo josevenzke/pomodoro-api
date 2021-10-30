@@ -1,6 +1,7 @@
 from.models import Pomodoro, TimeSpent
 import pandas
 from datetime import timedelta
+import datetime
 
 def get_pomodoros_specific_period(date_start,date_end,pomotree) -> dict:
     pomodoros = Pomodoro.objects.filter(created_at__range=(date_start,date_end),pomodorotree_id=pomotree.id).values()
@@ -31,3 +32,30 @@ def get_time_spent_period(date_start,date_end,pomotree):
             time_per_day[day] += int(time['time_spent'])
 
     return time_per_day
+
+def get_day_streak(pomodoro_tree):
+    total_streak = 0
+    current_streak = 0
+    today = datetime.date.today()
+    compareDate = today + datetime.timedelta(1) # Tomorrow
+
+    time_spent = TimeSpent.objects.filter(pomodorotree=pomodoro_tree, date__lte = today).order_by("-date")
+
+    for time in time_spent:
+        # Get the difference btw the dates
+
+        delta = compareDate - time.date
+
+        if delta.days == 1: # Keep the streak going!
+            current_streak += 1
+        elif delta.days == 0: # Don't bother increasing the day if there's multiple ones on the same day
+            pass
+        else: # Awwww...
+            break # The current streak is done, exit the loop
+
+        compareDate = time.date
+
+    if current_streak > total_streak:
+        total_streak = current_streak
+
+    return total_streak
