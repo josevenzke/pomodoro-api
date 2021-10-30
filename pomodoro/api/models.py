@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.deletion import CASCADE
-import datetime
 
 # Create your models here.
 class PomodoroTree(models.Model):
@@ -23,3 +22,7 @@ class Reward(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
     cost = models.IntegerField()
+
+class SecretReward(models.Model):
+    reward = models.ForeignKey(Reward,on_delete=models.CASCADE)
+    content = models.TextField()
