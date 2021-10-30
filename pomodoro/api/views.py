@@ -47,12 +47,14 @@ def add_time(request):
     pomotree.time_for_next_pomodoro += int(time)
 
     if pomotree.time_for_next_pomodoro >= 90:
-        Pomodoro.objects.create(pomodotree=pomotree)
+        Pomodoro.objects.create(pomodorotree=pomotree)
         pomotree.current_pomodoros += 1
         pomotree.all_time_pomodoros +=1
         pomotree.time_for_next_pomodoro -= 90
     
     pomotree.save()
+
+    time_spent = TimeSpent.objects.create(pomodorotree=pomotree,time_spent=int(time))
 
     pomo = PomodoroTreeSerializer(pomotree).data
     return Response({'pomotree':pomo})
@@ -61,26 +63,37 @@ def add_time(request):
 @permission_classes([IsAuthenticated])
 def get_pomodoros(request):
     time_period = request.POST.get('period')
+    pomotree = PomodoroTree.objects.get(user_id=request.user.id)
 
     if time_period == 'week':
         date_end = datetime.date.today()
         date_start = date_end - timedelta(days=7)
-        pomodoros = get_pomodoros_specific_period(date_start,date_end)
-        #helper
+        pomodoros = get_pomodoros_specific_period(date_start,date_end,pomotree)
 
     elif time_period == 'month':
         date_end = datetime.date.today()
         date_start = date_end - timedelta(days=30)
-        pomodoros = get_pomodoros_specific_period(date_start,date_end)
+        pomodoros = get_pomodoros_specific_period(date_start,date_end,pomotree)
 
     return Response({'pomodoros':pomodoros})
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_time_spent(request):
+    time_period = request.POST.get('period')
+    pomotree = PomodoroTree.objects.get(user_id=request.user.id)
 
+    if time_period == 'week':
+        date_end = datetime.date.today()
+        date_start = date_end - timedelta(days=7)
+        time_spent = get_time_spent_period(date_start,date_end,pomotree)
 
+    elif time_period == 'month':
+        date_end = datetime.date.today()
+        date_start = date_end - timedelta(days=30)
+        time_spent = get_time_spent_period(date_start,date_end,pomotree)
 
-
-
-
+    return Response({'time_spent':time_spent})
 
 
 
