@@ -23,8 +23,3 @@ class Reward(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
     cost = models.IntegerField()
-
-class RedeemedRewards(models.Model):
-    user = models.ForeignKey(User,on_delete=CASCADE)
-    reward = models.ForeignKey(Reward, on_delete=CASCADE)
-    date = models.DateTimeField(auto_now_add=True)
