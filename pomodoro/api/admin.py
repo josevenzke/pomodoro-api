@@ -5,3 +5,5 @@ from.models import *
 admin.site.register(Pomodoro)
 admin.site.register(TimeSpent)
 admin.site.register(PomodoroTree)
+admin.site.register(Reward)
+admin.site.register(SecretReward)
