@@ -119,7 +119,6 @@ def add_reward(request):
     return Response({'reward':serialized_reward})
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
 def get_rewards(request):
     rewards = Reward.objects.all()
 
