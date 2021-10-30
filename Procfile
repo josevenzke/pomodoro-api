@@ -1,1 +1,1 @@
-web: gunicorn pomodoro/pomodoro.wsgi
+web: gunicorn --pythonpath pomodoro pomodoro.wsgi
