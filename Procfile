@@ -1,4 +1,4 @@
 web: gunicorn pomodoro.wsgi
-release: python manage.py makemigrations --noinput
-release: python manage.py collectstatic --noinput
-release: python manage.py migrate --noinput
+release: python pomodoro/manage.py makemigrations --noinput
+release: python pomodoro/manage.py collectstatic --noinput
+release: python pomodoro/manage.py migrate --noinput
